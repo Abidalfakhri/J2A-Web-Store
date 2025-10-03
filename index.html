@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J2A SECONDARY STORE - Dark Modern</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        /* Header */
+        
+        header {
+            background: #1e1e1e;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+        
+        header h1 {
+            font-size: 22px;
+            color: #25d366;
+            letter-spacing: 1px;
+        }
+        
+        nav a {
+            color: #e0e0e0;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: 0.3s;
+        }
+        
+        nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: #25d366;
+            transition: width 0.3s;
+        }
+        
+        nav a:hover {
+            color: #25d366;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        /* Hero */
+        
+        .hero {
+            background: linear-gradient(135deg, #2c3e50, #000);
+            padding: 120px 20px;
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 1s ease;
+        }
+        
+        .hero h2 {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            color: #25d366;
+        }
+        /* Container */
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+        
+        h2.section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 28px;
+            color: #25d366;
+        }
+        /* Search & Filter */
+        
+        .search-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .search-filter input,
+        .search-filter select {
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: none;
+            background: #1e1e1e;
+            color: #e0e0e0;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+        
+        .search-filter input {
+            flex: 1;
+            min-width: 200px;
+            max-width: 400px;
+        }
+        
+        .search-filter select {
+            min-width: 150px;
+            cursor: pointer;
+        }
+        /* Grid & Card */
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+        }
+        
+        .card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: 0.6s ease;
+            cursor: pointer;
+        }
+        
+        .card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card h3 {
+            margin: 10px 0;
+            font-size: 20px;
+            color: #fff;
+        }
+        
+        .card p {
+            margin: 5px 0 15px;
+            color: #aaa;
+        }
+        /* Button */
+        
+        button {
+            background: #25d366;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #fff;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+        }
+        
+        button:hover {
+            background: #1ebe57;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.8);
+            transform: translateY(-2px);
+        }
+        /* Footer */
+        
+        footer {
+            background: #1e1e1e;
+            padding: 25px;
+            text-align: center;
+            margin-top: 60px;
+            color: #bbb;
+        }
+        
+        footer a {
+            color: #25d366;
+            text-decoration: none;
+        }
+        /* Modal */
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 100;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: #1e1e1e;
+            border-radius: 12px;
+            padding: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+            color: #ddd;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .modal h3 {
+            color: #25d366;
+            margin-bottom: 10px;
+        }
+        
+        .modal p {
+            margin-bottom: 15px;
+        }
+        
+        .modal .close-btn {
+            background: #ff4444;
+            margin-top: 10px;
+        }
+        /* Slider */
+        
+        #modalSlider {
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        #modalImg {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        #prevImg,
+        #nextImg {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #25d366;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        #prevImg {
+            left: 10px;
+        }
+        
+        #nextImg {
+            right: 10px;
+        }
+        
+        .thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .thumbnails img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.7;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+        
+        .thumbnails img.active {
+            opacity: 1;
+            border-color: #25d366;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>J2A SECONDARY STORE</h1>
+        <nav>
+            <a href="#katalog">Katalog</a>
+            <a href="#tentang">Tentang</a>
+            <a href="#hubungi">Hubungi</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="tentang">
+        <h2>Marketplace Barang Bekas Aman</h2>
+        <p>Transaksi dengan sistem perantara yang terpercaya</p>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title" id="katalog">Katalog Barang</h2>
+
+        <!-- SEARCH & FILTER -->
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="Cari produk...">
+            <select id="priceFilter">
+            <option value="all">Filter Harga</option>
+            <option value="low">Rp 0 - Rp 500.000</option>
+            <option value="medium">Rp 500.001 - Rp 2.000.000</option>
+            <option value="high">Rp 2.000.001 ke atas</option>
+        </select>
+        </div>
+
+        <div class="grid">
+            <!-- Contoh Barang -->
+            <div class="card" data-title="Gitar Yamaha FG - 435" data-price="Rp 300.000" data-desc="Gitar Yamaha FG-435." data-images="GITAR YAMAHA.jpg,GITAR YAMAHA 2.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Gitar%20Yamaha%20Bekas">
+                <img src="GITAR YAMAHA.jpg" alt="gitar">
+                <div class="card-body">
+                    <h3>Gitar Yamaha FG-435</h3>
+                    <p>Rp 300.000</p>
+                </div>
+            </div>
+            <div class="card" data-title="DUAL SHOCK 4 Wireless Controller PS4 Spiderman" data-price="Rp 150.000" data-desc="Controler PS4 Spiderman Kondisi bagus full segel." data-images="STIK PS 4 SPIDERMAN.jpg,STIK PS 4 SPIDERMAN 2.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Nike%20Air%20Force%201">
+                <img src="STIK PS 4 SPIDERMAN.jpg" alt="STIK">
+                <div class="card-body">
+                    <h3>DUAL SHOCK 4 Wireless Controller PS4 Spiderman</h3>
+                    <p>Rp 150.000</p>
+                </div>
+            </div>
+            <div class="card" data-title="Celana Jeans Baggy" data-price="Rp 80.000" data-desc="Celana Jeans Baggy kondisi mulus terawat." data-images="CELANA JEANS.jpg,CELANA JEANS 2.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Celana%20Jeans%20Baggy%201">
+                <img src="CELANA JEANS.jpg" alt="STIK">
+                <div class="card-body">
+                    <h3>Celana Jeans Baggy</h3>
+                    <p>Rp 80.000</p>
+                </div>
+            </div>
+
+
+            <!-- Tambahkan card lain sesuai format di atas -->
+        </div>
+    </div>
+
+    <footer id="hubungi">
+        <p>© 2025 J2A SECONDARY STORE | Transaksi Aman dengan Sistem Perantara</p>
+        <p>Hubungi kami: <a href="https://wa.me/6287878128437">WhatsApp</a></p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <div id="modalSlider">
+                <img id="modalImg" src="" alt="Foto Produk">
+                <button id="prevImg">&#10094;</button>
+                <button id="nextImg">&#10095;</button>
+            </div>
+            <div class="thumbnails" id="modalThumbnails"></div>
+            <p id="modalPrice" style="color:#25d366; font-weight:bold; margin-top:10px;"></p>
+            <p id="modalDesc"></p>
+            <button id="contactBtn">Hubungi Admin</button>
+            <button class="close-btn" onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const modal = document.getElementById('productModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImg = document.getElementById('modalImg');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDesc = document.getElementById('modalDesc');
+        const contactBtn = document.getElementById('contactBtn');
+        const modalThumbnails = document.getElementById('modalThumbnails');
+        const prevBtn = document.getElementById('prevImg');
+        const nextBtn = document.getElementById('nextImg');
+        let imagesArray = [];
+        let currentIndex = 0;
+        let waLink = "";
+
+        // Animasi masuk card
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, {
+            threshold: 0.2
+        });
+        cards.forEach(card => observer.observe(card));
+
+        function updateSlider() {
+            modalImg.src = imagesArray[currentIndex];
+            document.querySelectorAll('.thumbnails img').forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                modalTitle.textContent = card.dataset.title;
+                modalPrice.textContent = card.dataset.price;
+                modalDesc.textContent = card.dataset.desc;
+                waLink = card.dataset.wa;
+
+                imagesArray = card.dataset.images.split(',').map(s => s.trim());
+                currentIndex = 0;
+                modalImg.src = imagesArray[0];
+
+                modalThumbnails.innerHTML = '';
+                imagesArray.forEach((src, i) => {
+                    const thumb = document.createElement('img');
+                    thumb.src = src;
+                    if (i === 0) thumb.classList.add('active');
+                    thumb.addEventListener('click', () => {
+                        currentIndex = i;
+                        updateSlider();
+                    });
+                    modalThumbnails.appendChild(thumb);
+                });
+
+                contactBtn.onclick = () => window.open(waLink, '_blank');
+                modal.classList.add('active');
+            });
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + imagesArray.length) % imagesArray.length;
+            updateSlider();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % imagesArray.length;
+            updateSlider();
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+        window.addEventListener('click', e => {
+            if (e.target === modal) closeModal();
+        });
+
+        // SEARCH & FILTER
+        const searchInput = document.getElementById('searchInput');
+        const priceFilter = document.getElementById('priceFilter');
+
+        function filterCards() {
+            const searchText = searchInput.value.toLowerCase();
+            const priceValue = priceFilter.value;
+
+            cards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                const priceText = card.dataset.price.replace(/[^0-9]/g, '');
+                const price = parseInt(priceText);
+
+                let matchesSearch = title.includes(searchText);
+                let matchesPrice = true;
+
+                if (priceValue === 'low') matchesPrice = price <= 500000;
+                else if (priceValue === 'medium') matchesPrice = price > 500000 && price <= 2000000;
+                else if (priceValue === 'high') matchesPrice = price > 2000000;
+
+                card.style.display = (matchesSearch && matchesPrice) ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', filterCards);
+        priceFilter.addEventListener('change', filterCards);
+    </script>
+
+</body>
+
+</html>
