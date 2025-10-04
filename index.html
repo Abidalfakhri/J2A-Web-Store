@@ -359,11 +359,11 @@
         <div class="search-filter">
             <input type="text" id="searchInput" placeholder="Cari produk...">
             <select id="priceFilter">
-            <option value="all">Filter Harga</option>
-            <option value="low">Rp 0 - Rp 500.000</option>
-            <option value="medium">Rp 500.001 - Rp 2.000.000</option>
-            <option value="high">Rp 2.000.001 ke atas</option>
-        </select>
+                <option value="all">Filter Harga</option>
+                <option value="low">Rp 0 - Rp 500.000</option>
+                <option value="medium">Rp 500.001 - Rp 2.000.000</option>
+                <option value="high">Rp 2.000.001 ke atas</option>
+            </select>
         </div>
 
         <div class="grid">
@@ -383,52 +383,49 @@
                 </div>
             </div>
             <div class="card" data-title="Celana Jeans Baggy" data-price="Rp 80.000" data-desc="Celana Jeans Baggy kondisi mulus terawat." data-images="CELANA JEANS.jpg,CELANA JEANS 2.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Celana%20Jeans%20Baggy%201">
-                <img src="CELANA JEANS.jpg" alt="STIK">
+                <img src="CELANA JEANS.jpg" alt="celana">
                 <div class="card-body">
                     <h3>Celana Jeans Baggy</h3>
                     <p>Rp 80.000</p>
                 </div>
             </div>
             <div class="card" data-title="Hot Toys Deadpool" data-price="Rp 150.000" data-desc="Hot Toys Deadpool Grenade Holding Version." data-images="Hot Toys Deadpool.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Hot%20Toys%20Deadpool%201">
-                <img src="Hot Toys Deadpool.jpg" alt="STIK">
+                <img src="Hot Toys Deadpool.jpg" alt="deadpool">
                 <div class="card-body">
                     <h3>Hot Toys Deadpool</h3>
                     <p>Rp 150.000</p>
                 </div>
             </div>
-            <div class="card" data-title="Action Figure Pennywise" data-price="Rp 275.000" data-desc="NECA Ultimate Pennywise (2017) 7 inch Scale Action Figure" data-images="Action Figure Penywise.jpg,Action Figure Penywise 2.jpg, Action Figure Penywise 3.jpg, Action Figure Penywise 4.jpg, Action Figure Penywise 5.jpg "
-                data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Action%20Figure%20Pennywise%201 ">
-                <img src="Action Figure Penywise.jpg " alt="STIK ">
-                <div class="card-body ">
-                    <h3>NECA Ultimate Pennywise (2017) 7 inch Scale Action Figure </h3>
+            <div class="card" data-title="Action Figure Pennywise" data-price="Rp 275.000" data-desc="NECA Ultimate Penywise (2017) 7 inch Scale Action Figure" data-images="Action Figure Penywise.jpg,Action Figure Pennywise 2.jpg,Action Figure Penywise 3.jpg,Action Figure Penywise 4.jpg,Action Figure Penywise 5.jpg"
+                data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Action%20Figure%20Pennywise%201">
+                <img src="Action Figure Penywise.jpg" alt="penywise">
+                <div class="card-body">
+                    <h3>NECA Ultimate Pennywise (2017) 7 inch Scale Action Figure</h3>
                     <p>Rp 275.000</p>
                 </div>
             </div>
-
-
-            <!-- Tambahkan card lain sesuai format di atas -->
         </div>
     </div>
 
-    <footer id="hubungi ">
+    <footer id="hubungi">
         <p>© 2025 J2A SECONDARY STORE | Transaksi Aman dengan Sistem Perantara</p>
-        <p>Hubungi kami: <a href="https://wa.me/6287878128437 ">WhatsApp</a></p>
+        <p>Hubungi kami: <a href="https://wa.me/6287878128437">WhatsApp</a></p>
     </footer>
 
     <!-- Modal -->
-    <div class="modal " id="productModal ">
-        <div class="modal-content ">
-            <h3 id="modalTitle "></h3>
-            <div id="modalSlider ">
-                <img id="modalImg " src=" " alt="Foto Produk ">
-                <button id="prevImg ">&#10094;</button>
-                <button id="nextImg ">&#10095;</button>
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <div id="modalSlider">
+                <img id="modalImg" src="" alt="Foto Produk">
+                <button id="prevImg">&#10094;</button>
+                <button id="nextImg">&#10095;</button>
             </div>
-            <div class="thumbnails " id="modalThumbnails "></div>
-            <p id="modalPrice " style="color:#25d366; font-weight:bold; margin-top:10px; "></p>
-            <p id="modalDesc "></p>
-            <button id="contactBtn ">Hubungi Admin</button>
-            <button class="close-btn " onclick="closeModal() ">Tutup</button>
+            <div class="thumbnails" id="modalThumbnails"></div>
+            <p id="modalPrice" style="color:#25d366; font-weight:bold; margin-top:10px;"></p>
+            <p id="modalDesc"></p>
+            <button id="contactBtn">Hubungi Admin</button>
+            <button class="close-btn" onclick="closeModal()">Tutup</button>
         </div>
     </div>
 
@@ -445,7 +442,7 @@
         const nextBtn = document.getElementById('nextImg');
         let imagesArray = [];
         let currentIndex = 0;
-        let waLink = " ";
+        let waLink = "";
 
         // Animasi masuk card
         const observer = new IntersectionObserver(entries => {
@@ -525,20 +522,17 @@
                 let matchesSearch = title.includes(searchText);
                 let matchesPrice = true;
 
-                if (priceValue === 'low') matchesPrice = price <= 500000;
-                else if (priceValue === 'medium') matchesPrice = price > 500000 && price <= 2000000;
-                else if (priceValue === 'high') matchesPrice = price > 2000000;
+                if (priceValue === "low") matchesPrice = price <= 500000;
+                if (priceValue === "medium") matchesPrice = price > 500000 && price <= 2000000;
+                if (priceValue === "high") matchesPrice = price > 2000000;
 
-                card.style.display = (matchesSearch && matchesPrice) ? '' : 'none';
+                card.style.display = (matchesSearch && matchesPrice) ? "block" : "none";
             });
         }
 
         searchInput.addEventListener('input', filterCards);
         priceFilter.addEventListener('change', filterCards);
     </script>
-
 </body>
 
 </html>
-
-
