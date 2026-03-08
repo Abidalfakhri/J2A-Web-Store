@@ -1,539 +1,1272 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J2A SECONDARY STORE - Dark Modern</title>
+    <title>J2A SECONDARY STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        :root {
+            --green: #25d366;
+            --green-dim: #1aad50;
+            --green-glow: rgba(37, 211, 102, 0.25);
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface2: #1a1a1a;
+            --surface3: #222222;
+            --text: #e8e8e8;
+            --text-dim: #888;
+            --red: #ff3c3c;
         }
-        
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        ::selection { background: var(--green); color: #000; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #121212;
-            color: #e0e0e0;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
         }
-        /* Header */
-        
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.4;
+        }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 4px; }
+
+        /* ── HEADER ── */
         header {
-            background: #1e1e1e;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 500;
+            padding: 0 40px;
+            height: 64px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            z-index: 10;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+            justify-content: space-between;
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(37,211,102,0.12);
         }
-        
-        header h1 {
-            font-size: 22px;
-            color: #25d366;
-            letter-spacing: 1px;
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            letter-spacing: 3px;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
+
+        .logo-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 10px var(--green), 0 0 20px var(--green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        nav { display: flex; gap: 32px; align-items: center; }
+
         nav a {
-            color: #e0e0e0;
-            margin-left: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
             text-decoration: none;
-            font-weight: 500;
+            transition: color 0.2s;
             position: relative;
-            transition: 0.3s;
         }
-        
+
         nav a::after {
-            content: "";
+            content: '';
             position: absolute;
-            left: 0;
-            bottom: -5px;
-            width: 0;
-            height: 2px;
-            background: #25d366;
+            bottom: -4px; left: 0;
+            width: 0; height: 1px;
+            background: var(--green);
             transition: width 0.3s;
         }
-        
-        nav a:hover {
-            color: #25d366;
-        }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        /* Hero */
-        
+
+        nav a:hover { color: var(--green); }
+        nav a:hover::after { width: 100%; }
+
+        /* ── HERO ── */
         .hero {
-            background: linear-gradient(135deg, #2c3e50, #000);
-            padding: 120px 20px;
-            text-align: center;
-            color: #fff;
-            animation: fadeIn 1s ease;
-        }
-        
-        .hero h2 {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-        
-        .hero p {
-            font-size: 20px;
-            color: #25d366;
-        }
-        /* Container */
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 50px auto;
-        }
-        
-        h2.section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 28px;
-            color: #25d366;
-        }
-        /* Search & Filter */
-        
-        .search-filter {
+            height: 100vh;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-        
-        .search-filter input,
-        .search-filter select {
-            padding: 10px 15px;
-            border-radius: 12px;
-            border: none;
-            background: #1e1e1e;
-            color: #e0e0e0;
-            font-size: 16px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-            transition: 0.3s;
-        }
-        
-        .search-filter input {
-            flex: 1;
-            min-width: 200px;
-            max-width: 400px;
-        }
-        
-        .search-filter select {
-            min-width: 150px;
-            cursor: pointer;
-        }
-        /* Grid & Card */
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 25px;
-        }
-        
-        .card {
-            background: #1e1e1e;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
-            transform: translateY(30px);
-            opacity: 0;
-            transition: 0.6s ease;
-            cursor: pointer;
-        }
-        
-        .card.visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-        
-        .card:hover img {
-            transform: scale(1.1);
-        }
-        
-        .card-body {
-            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
         }
-        
-        .card h3 {
-            margin: 10px 0;
-            font-size: 20px;
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 60%, rgba(37,211,102,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 20% 80%, rgba(37,211,102,0.04) 0%, transparent 60%),
+                linear-gradient(160deg, #0d1a12 0%, #0a0a0a 50%, #0d0d0a 100%);
+        }
+
+        /* Grid lines */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(37,211,102,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(37,211,102,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+        }
+
+        .hero-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: slideUp 0.8s 0.3s forwards;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-eyebrow::before, .hero-eyebrow::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: var(--green);
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(60px, 12vw, 130px);
+            line-height: 0.9;
+            letter-spacing: 6px;
             color: #fff;
+            opacity: 0;
+            animation: slideUp 0.8s 0.5s forwards;
+            position: relative;
         }
-        
-        .card p {
-            margin: 5px 0 15px;
-            color: #aaa;
+
+        .hero h1 span { color: var(--green); }
+
+        .hero-sub {
+            font-size: 16px;
+            color: var(--text-dim);
+            margin-top: 20px;
+            max-width: 400px;
+            opacity: 0;
+            animation: slideUp 0.8s 0.7s forwards;
+            position: relative;
+            line-height: 1.6;
         }
-        /* Button */
-        
-        button {
-            background: #25d366;
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            opacity: 0;
+            animation: slideUp 0.8s 0.9s forwards;
+            position: relative;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: #000;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 14px 32px;
             border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
-            color: #fff;
-            transition: 0.3s;
-            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+            font-weight: 700;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
         }
-        
-        button:hover {
-            background: #1ebe57;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.8);
+
+        .btn-primary:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37,211,102,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--green);
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 14px 32px;
+            border: 1px solid rgba(37,211,102,0.4);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--green);
+            background: rgba(37,211,102,0.08);
             transform: translateY(-2px);
         }
-        /* Footer */
-        
-        footer {
-            background: #1e1e1e;
-            padding: 25px;
-            text-align: center;
-            margin-top: 60px;
-            color: #bbb;
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeIn 0.8s 1.4s forwards;
         }
-        
-        footer a {
-            color: #25d366;
-            text-decoration: none;
+
+        .hero-scroll span {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dim);
         }
-        /* Modal */
-        
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+
+        .scroll-line {
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, var(--green), transparent);
+            animation: scrollLine 2s infinite;
+        }
+
+        @keyframes scrollLine {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            50.001% { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: var(--surface);
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 28px 40px;
             display: flex;
             justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            color: var(--green);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        /* ── CATALOG SECTION ── */
+        .catalog-section {
+            padding: 80px 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 5vw, 60px);
+            letter-spacing: 3px;
+            color: #fff;
+            line-height: 1;
+        }
+
+        /* ── SEARCH & FILTER ── */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-wrap {
+            position: relative;
+        }
+
+        .search-wrap svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            pointer-events: none;
+        }
+
+        .filter-bar input {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            padding: 12px 16px 12px 42px;
+            border-radius: 8px;
+            outline: none;
+            width: 260px;
+            transition: border-color 0.2s;
+        }
+
+        .filter-bar input:focus {
+            border-color: rgba(37,211,102,0.4);
+        }
+
+        .filter-bar input::placeholder { color: var(--text-dim); }
+
+        .filter-bar select {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            appearance: none;
+            padding-right: 36px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .filter-bar select:focus {
+            border-color: rgba(37,211,102,0.4);
+        }
+
+        /* ── PRODUCT GRID ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s, transform 0.5s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(37,211,102,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(37,211,102,0.08);
+        }
+
+        .card-img-wrap {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background: var(--surface2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            display: block;
+        }
+
+        .card:hover img {
+            transform: scale(1.08);
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 16px;
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-overlay-text {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--green);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            margin-top: 4px;
+        }
+
+        .price {
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .detail-btn {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(37,211,102,0.1);
+            border: 1px solid rgba(37,211,102,0.3);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .detail-btn:hover {
+            background: var(--green);
+            color: #000;
+        }
+
+        /* ── MODAL ── */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             opacity: 0;
             visibility: hidden;
-            transition: 0.3s;
-            z-index: 100;
+            transition: opacity 0.3s, visibility 0.3s;
         }
-        
+
         .modal.active {
             opacity: 1;
             visibility: visible;
         }
-        
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
+        }
+
         .modal-content {
-            background: #1e1e1e;
-            border-radius: 12px;
-            padding: 20px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            text-align: center;
-            color: #ddd;
-            animation: fadeIn 0.4s ease;
-        }
-        
-        .modal h3 {
-            color: #25d366;
-            margin-bottom: 10px;
-        }
-        
-        .modal p {
-            margin-bottom: 15px;
-        }
-        
-        .modal .close-btn {
-            background: #ff4444;
-            margin-top: 10px;
-        }
-        /* Slider */
-        
-        #modalSlider {
             position: relative;
-            margin-bottom: 10px;
+            z-index: 1;
+            background: var(--surface);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 780px;
+            max-height: 92vh;
+            overflow-y: auto;
+            animation: modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
         }
-        
+
+        @keyframes modalIn {
+            from { transform: scale(0.9) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .modal-left {
+            position: relative;
+            background: var(--surface2);
+            border-radius: 16px 0 0 16px;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .modal-right {
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
         #modalImg {
             width: 100%;
-            max-height: 400px;
+            height: 100%;
+            min-height: 400px;
             object-fit: cover;
-            border-radius: 10px;
+            display: block;
         }
-        
-        #prevImg,
-        #nextImg {
+
+        .modal-nav {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #25d366;
-            border: none;
-            padding: 8px 12px;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .modal-nav button {
+            width: 36px; height: 36px;
             border-radius: 50%;
+            background: rgba(10,10,10,0.8);
+            border: 1px solid rgba(37,211,102,0.4);
+            color: var(--green);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            color: #fff;
-            font-size: 20px;
-            font-weight: bold;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+            padding: 0;
+            box-shadow: none;
         }
-        
-        #prevImg {
-            left: 10px;
+
+        .modal-nav button:hover {
+            background: var(--green);
+            color: #000;
+            transform: none;
         }
-        
-        #nextImg {
-            right: 10px;
-        }
-        
+
         .thumbnails {
             display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            padding: 0 16px 16px;
+            justify-content: center;
+        }
+
+        .thumbnails img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+
+        .thumbnails img:hover { opacity: 1; }
+        .thumbnails img.active { border-color: var(--green); opacity: 1; }
+
+        .modal-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green);
+            margin-bottom: 12px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+
+        .modal-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+            color: var(--green);
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+
+        .modal-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.06);
+            margin: 16px 0;
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-dim);
+            flex: 1;
+        }
+
+        .modal-actions {
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-wa {
+            display: flex;
+            align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .thumbnails img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
+            background: var(--green);
+            color: #000;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding: 14px 20px;
+            border: none;
             border-radius: 8px;
             cursor: pointer;
-            opacity: 0.7;
-            border: 2px solid transparent;
-            transition: 0.3s;
+            transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.25);
         }
-        
-        .thumbnails img.active {
-            opacity: 1;
-            border-color: #25d366;
+
+        .btn-wa:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37,211,102,0.3);
         }
-        
+
+        .btn-close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--text-dim);
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 400;
+            padding: 12px 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: none;
+        }
+
+        .btn-close:hover {
+            border-color: rgba(255,255,255,0.2);
+            color: var(--text);
+            background: rgba(255,255,255,0.04);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .modal-close-x {
+            position: absolute;
+            top: 16px; right: 16px;
+            z-index: 10;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(10,10,10,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-dim);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .modal-close-x:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.3);
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ── TRUST SECTION ── */
+        .trust-section {
+            background: var(--surface);
+            border-top: 1px solid rgba(255,255,255,0.04);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 60px 40px;
+        }
+
+        .trust-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .trust-item {
+            text-align: center;
+        }
+
+        .trust-icon {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            color: rgba(37,211,102,0.15);
+            line-height: 1;
+            margin-bottom: 14px;
+            letter-spacing: 2px;
+        }
+
+        .trust-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .trust-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: var(--green);
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+
+        .footer-wa {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--green);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid rgba(37,211,102,0.3);
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .footer-wa:hover {
+            background: rgba(37,211,102,0.08);
+            border-color: var(--green);
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-dim);
+        }
+
+        .empty-state h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.2);
+            margin-bottom: 8px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            header { padding: 0 20px; }
+            nav a { margin: 0; }
+            .catalog-section { padding: 60px 20px; }
+            .stats-bar { gap: 40px; padding: 24px 20px; }
+            .modal-grid { grid-template-columns: 1fr; }
+            .modal-left { border-radius: 16px 16px 0 0; min-height: 260px; }
+            #modalImg { min-height: 260px; }
+            .trust-inner { grid-template-columns: 1fr; }
+            footer { flex-direction: column; text-align: center; }
+            .filter-bar input { width: 100%; }
         }
     </style>
 </head>
-
 <body>
 
-    <header>
-        <h1>J2A SECONDARY STORE</h1>
-        <nav>
-            <a href="#katalog">Katalog</a>
-            <a href="#tentang">Tentang</a>
-            <a href="#hubungi">Hubungi</a>
-        </nav>
-    </header>
+<!-- HEADER -->
+<header>
+    <div class="logo">J2A SECONDARY STORE</div>
+    <nav>
+        <a href="#katalog">Katalog</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#hubungi">Kontak</a>
+    </nav>
+</header>
 
-    <section class="hero" id="tentang">
-        <h2>Marketplace Barang Bekas Aman</h2>
-        <p>Transaksi dengan sistem perantara yang terpercaya</p>
-    </section>
+<!-- HERO -->
+<section class="hero" id="tentang">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
 
-    <div class="container">
-        <h2 class="section-title" id="katalog">Katalog Barang</h2>
+    <p class="hero-eyebrow">Marketplace Terpercaya</p>
+    <h1>BARANG <span>BEKAS</span><br>BERKUALITAS</h1>
+    <p class="hero-sub">Transaksi aman dengan sistem perantara. Temukan barang impianmu dengan harga terbaik.</p>
+    <div class="hero-cta">
+        <a href="#katalog" class="btn-primary">Lihat Katalog</a>
+        <a href="https://wa.me/6287878128437" target="_blank" class="btn-outline">Hubungi Admin</a>
+    </div>
 
-        <!-- SEARCH & FILTER -->
-        <div class="search-filter">
-            <input type="text" id="searchInput" placeholder="Cari produk...">
+    <div class="hero-scroll">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stat">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Produk Tersedia</div>
+    </div>
+    <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Transaksi Aman</div>
+    </div>
+    <div class="stat">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Siap Melayani</div>
+    </div>
+</div>
+
+<!-- CATALOG -->
+<section class="catalog-section" id="katalog">
+    <div class="section-header">
+        <div>
+            <p class="section-label">— Produk Kami</p>
+            <h2 class="section-title">Katalog Barang</h2>
+        </div>
+        <div class="filter-bar">
+            <div class="search-wrap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+                <input type="text" id="searchInput" placeholder="Cari produk...">
+            </div>
             <select id="priceFilter">
-                <option value="all">Filter Harga</option>
-                <option value="low">Rp 0 - Rp 500.000</option>
-                <option value="medium">Rp 500.001 - Rp 2.000.000</option>
-                <option value="high">Rp 2.000.001 ke atas</option>
+                <option value="all">Semua Harga</option>
+                <option value="low">Rp 0 – 500.000</option>
+                <option value="medium">Rp 500.001 – 2.000.000</option>
+                <option value="high">Rp 2.000.001+</option>
             </select>
         </div>
+    </div>
 
-        <div class="grid">
-            <!-- Contoh Barang -->
-            <div class="card" data-title="Gitar Yamaha FG - 435" data-price="Rp 300.000" data-desc="Gitar Yamaha FG-435." data-images="GITAR YAMAHA.jpg,GITAR YAMAHA 2.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Gitar%20Yamaha%20Bekas">
-                <img src="GITAR YAMAHA.jpg" alt="gitar">
-                <div class="card-body">
-                    <h3>Gitar Yamaha FG-435</h3>
-                    <p>Rp 300.000</p>
-                </div>
+    <div class="grid" id="productGrid">
+
+        <div class="card"
+            data-title="Gitar Yamaha FG-435"
+            data-price="Rp 300.000"
+            data-desc="Gitar akustik Yamaha FG-435 kondisi baik, suara jernih dan nyaman dimainkan. Cocok untuk pemula maupun yang sudah mahir."
+            data-images="GITAR YAMAHA.jpg,GITAR YAMAHA 2.jpg"
+            data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Gitar%20Yamaha%20FG-435">
+            <div class="card-img-wrap">
+                <img src="GITAR YAMAHA.jpg" alt="Gitar Yamaha FG-435">
+                <div class="card-overlay"><span class="card-overlay-text">Lihat Detail</span></div>
             </div>
-            <div class="card" data-title="DUAL SHOCK 4 Wireless Controller PS4 Spiderman" data-price="Rp 150.000" data-desc="Controler PS4 Spiderman Kondisi bagus full segel." data-images="STIK PS 4 SPIDERMAN.jpg,STIK PS 4 SPIDERMAN 2.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Stik%20PS4%20Spiderman%201">
-                <img src="STIK PS 4 SPIDERMAN.jpg" alt="STIK">
-                <div class="card-body">
-                    <h3>DUAL SHOCK 4 Wireless Controller PS4 Spiderman</h3>
-                    <p>Rp 150.000</p>
-                </div>
-            </div>
-            <div class="card" data-title="Celana Jeans Baggy" data-price="Rp 80.000" data-desc="Celana Jeans Baggy kondisi mulus terawat." data-images="CELANA JEANS.jpg,CELANA JEANS 2.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Celana%20Jeans%20Baggy%201">
-                <img src="CELANA JEANS.jpg" alt="celana">
-                <div class="card-body">
-                    <h3>Celana Jeans Baggy</h3>
-                    <p>Rp 80.000</p>
-                </div>
-            </div>
-            <div class="card" data-title="Hot Toys Deadpool" data-price="Rp 150.000" data-desc="Hot Toys Deadpool Grenade Holding Version." data-images="Hot Toys Deadpool.jpg" data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Hot%20Toys%20Deadpool%201">
-                <img src="Hot Toys Deadpool.jpg" alt="deadpool">
-                <div class="card-body">
-                    <h3>Hot Toys Deadpool</h3>
-                    <p>Rp 150.000</p>
-                </div>
-            </div>
-            <div class="card" data-title="Action Figure Pennywise" data-price="Rp 275.000" data-desc="NECA Ultimate Penywise (2017) 7 inch Scale Action Figure" data-images="Action Figure Penywise.jpg,Action Figure Penywise 2.jpg,Action Figure Penywise 3.jpg,Action Figure Penywise 4.jpg,Action Figure Penywise 5.jpg"
-                data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Action%20Figure%20Pennywise%201">
-                <img src="Action Figure Penywise.jpg" alt="penywise">
-                <div class="card-body">
-                    <h3>NECA Ultimate Pennywise (2017) 7 inch Scale Action Figure</h3>
-                    <p>Rp 275.000</p>
+            <div class="card-body">
+                <h3>Gitar Yamaha FG-435</h3>
+                <div class="card-footer">
+                    <span class="price">Rp 300.000</span>
+                    <div class="detail-btn">→</div>
                 </div>
             </div>
         </div>
+
+        <div class="card"
+            data-title="DualShock 4 PS4 Spiderman"
+            data-price="Rp 150.000"
+            data-desc="Controller PS4 edisi Spiderman kondisi bagus, full segel. Tombol responsif, stik tidak drift. Siap pakai langsung."
+            data-images="STIK PS 4 SPIDERMAN.jpg,STIK PS 4 SPIDERMAN 2.jpg"
+            data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20DualShock%204%20PS4%20Spiderman">
+            <div class="card-img-wrap">
+                <img src="STIK PS 4 SPIDERMAN.jpg" alt="DualShock 4 Spiderman">
+                <div class="card-overlay"><span class="card-overlay-text">Lihat Detail</span></div>
+            </div>
+            <div class="card-body">
+                <h3>DualShock 4 Wireless Controller PS4 Spiderman</h3>
+                <div class="card-footer">
+                    <span class="price">Rp 150.000</span>
+                    <div class="detail-btn">→</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card"
+            data-title="Celana Jeans Baggy"
+            data-price="Rp 80.000"
+            data-desc="Celana jeans baggy kondisi mulus dan terawat, warna masih pekat, bahan nyaman dipakai harian. Cocok untuk berbagai outfit casual."
+            data-images="CELANA JEANS.jpg,CELANA JEANS 2.jpg"
+            data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Celana%20Jeans%20Baggy">
+            <div class="card-img-wrap">
+                <img src="CELANA JEANS.jpg" alt="Celana Jeans Baggy">
+                <div class="card-overlay"><span class="card-overlay-text">Lihat Detail</span></div>
+            </div>
+            <div class="card-body">
+                <h3>Celana Jeans Baggy</h3>
+                <div class="card-footer">
+                    <span class="price">Rp 80.000</span>
+                    <div class="detail-btn">→</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card"
+            data-title="Hot Toys Deadpool"
+            data-price="Rp 150.000"
+            data-desc="Hot Toys Deadpool Grenade Holding Version. Detail tinggi, material premium. Koleksi langka yang sayang dilewatkan bagi para kolektor."
+            data-images="Hot Toys Deadpool.jpg"
+            data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20Hot%20Toys%20Deadpool">
+            <div class="card-img-wrap">
+                <img src="Hot Toys Deadpool.jpg" alt="Hot Toys Deadpool">
+                <div class="card-overlay"><span class="card-overlay-text">Lihat Detail</span></div>
+            </div>
+            <div class="card-body">
+                <h3>Hot Toys Deadpool</h3>
+                <div class="card-footer">
+                    <span class="price">Rp 150.000</span>
+                    <div class="detail-btn">→</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card"
+            data-title="NECA Ultimate Pennywise Action Figure"
+            data-price="Rp 275.000"
+            data-desc="NECA Ultimate Pennywise (2017) 7 inch Scale Action Figure. Aksesoris lengkap, detail cat rapi. Kondisi sangat baik, cocok untuk koleksi atau display."
+            data-images="Action Figure Penywise.jpg,Action Figure Penywise 2.jpg,Action Figure Penywise 3.jpg,Action Figure Penywise 4.jpg,Action Figure Penywise 5.jpg"
+            data-wa="https://wa.me/6287878128437?text=Halo,%20saya%20tertarik%20membeli%20NECA%20Pennywise%20Action%20Figure">
+            <div class="card-img-wrap">
+                <img src="Action Figure Penywise.jpg" alt="NECA Pennywise">
+                <div class="card-overlay"><span class="card-overlay-text">Lihat Detail</span></div>
+            </div>
+            <div class="card-body">
+                <h3>NECA Ultimate Pennywise (2017) 7" Action Figure</h3>
+                <div class="card-footer">
+                    <span class="price">Rp 275.000</span>
+                    <div class="detail-btn">→</div>
+                </div>
+            </div>
+        </div>
+
     </div>
+</section>
 
-    <footer id="hubungi">
-        <p>© 2025 J2A SECONDARY STORE | Transaksi Aman dengan Sistem Perantara</p>
-        <p>Hubungi kami: <a href="https://wa.me/6287878128437">WhatsApp</a></p>
-    </footer>
+<!-- TRUST -->
+<section class="trust-section" id="tentang2">
+    <div class="trust-inner">
+        <div class="trust-item">
+            <div class="trust-icon">01</div>
+            <div class="trust-title">Transaksi Aman</div>
+            <p class="trust-desc">Sistem perantara memastikan uang aman hingga barang diterima pembeli dengan kondisi sesuai.</p>
+        </div>
+        <div class="trust-item">
+            <div class="trust-icon">02</div>
+            <div class="trust-title">Foto Asli</div>
+            <p class="trust-desc">Semua foto adalah dokumentasi nyata kondisi barang, tanpa editan berlebihan.</p>
+        </div>
+        <div class="trust-item">
+            <div class="trust-icon">03</div>
+            <div class="trust-title">Respon Cepat</div>
+            <p class="trust-desc">Admin aktif di WhatsApp, siap menjawab pertanyaan dan membantu proses transaksi.</p>
+        </div>
+    </div>
+</section>
 
-    <!-- Modal -->
-    <div class="modal" id="productModal">
-        <div class="modal-content">
-            <h3 id="modalTitle"></h3>
-            <div id="modalSlider">
+<!-- FOOTER -->
+<footer id="hubungi">
+    <div class="footer-logo">J2A SECONDARY STORE</div>
+    <p class="footer-copy">© 2025 J2A Secondary Store — Transaksi Aman, Barang Berkualitas</p>
+    <a href="https://wa.me/6287878128437" target="_blank" class="footer-wa">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        WhatsApp
+    </a>
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="productModal">
+    <div class="modal-backdrop" onclick="closeModal()"></div>
+    <div class="modal-content">
+        <button class="modal-close-x" onclick="closeModal()">✕</button>
+        <div class="modal-grid">
+            <div class="modal-left">
                 <img id="modalImg" src="" alt="Foto Produk">
-                <button id="prevImg">&#10094;</button>
-                <button id="nextImg">&#10095;</button>
+                <div class="modal-nav">
+                    <button id="prevImg">‹</button>
+                    <button id="nextImg">›</button>
+                </div>
+                <div class="thumbnails" id="modalThumbnails"></div>
             </div>
-            <div class="thumbnails" id="modalThumbnails"></div>
-            <p id="modalPrice" style="color:#25d366; font-weight:bold; margin-top:10px;"></p>
-            <p id="modalDesc"></p>
-            <button id="contactBtn">Hubungi Admin</button>
-            <button class="close-btn" onclick="closeModal()">Tutup</button>
+            <div class="modal-right">
+                <p class="modal-tag">Detail Produk</p>
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <div class="modal-price" id="modalPrice"></div>
+                <div class="modal-divider"></div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-actions">
+                    <button class="btn-wa" id="contactBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        Hubungi via WhatsApp
+                    </button>
+                    <button class="btn-close" onclick="closeModal()">Tutup</button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <script>
-        const cards = document.querySelectorAll('.card');
-        const modal = document.getElementById('productModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalImg = document.getElementById('modalImg');
-        const modalPrice = document.getElementById('modalPrice');
-        const modalDesc = document.getElementById('modalDesc');
-        const contactBtn = document.getElementById('contactBtn');
-        const modalThumbnails = document.getElementById('modalThumbnails');
-        const prevBtn = document.getElementById('prevImg');
-        const nextBtn = document.getElementById('nextImg');
-        let imagesArray = [];
-        let currentIndex = 0;
-        let waLink = "";
-
-        // Animasi masuk card
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, {
-            threshold: 0.2
+<script>
+    // ── INTERSECTION OBSERVER ──
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                observer.unobserve(entry.target);
+            }
         });
-        cards.forEach(card => observer.observe(card));
+    }, { threshold: 0.1 });
+    cards.forEach(card => observer.observe(card));
 
-        function updateSlider() {
-            modalImg.src = imagesArray[currentIndex];
-            document.querySelectorAll('.thumbnails img').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === currentIndex);
-            });
+    // ── MODAL STATE ──
+    let imagesArray = [], currentIndex = 0, waLink = "";
+
+    function updateSlider() {
+        document.getElementById('modalImg').src = imagesArray[currentIndex];
+        document.querySelectorAll('#modalThumbnails img').forEach((t, i) => {
+            t.classList.toggle('active', i === currentIndex);
+        });
+    }
+
+    function openModal(card) {
+        const modal = document.getElementById('productModal');
+        document.getElementById('modalTitle').textContent = card.dataset.title;
+        document.getElementById('modalPrice').textContent = card.dataset.price;
+        document.getElementById('modalDesc').textContent = card.dataset.desc;
+        waLink = card.dataset.wa;
+
+        imagesArray = card.dataset.images.split(',').map(s => s.trim());
+        currentIndex = 0;
+        document.getElementById('modalImg').src = imagesArray[0];
+
+        const thumbs = document.getElementById('modalThumbnails');
+        thumbs.innerHTML = '';
+        imagesArray.forEach((src, i) => {
+            const img = document.createElement('img');
+            img.src = src;
+            if (i === 0) img.classList.add('active');
+            img.addEventListener('click', () => { currentIndex = i; updateSlider(); });
+            thumbs.appendChild(img);
+        });
+
+        // hide nav if single image
+        const nav = document.querySelector('.modal-nav');
+        nav.style.display = imagesArray.length > 1 ? 'flex' : 'none';
+
+        document.getElementById('contactBtn').onclick = () => window.open(waLink, '_blank');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('productModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    cards.forEach(card => card.addEventListener('click', () => openModal(card)));
+
+    document.getElementById('prevImg').addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex - 1 + imagesArray.length) % imagesArray.length;
+        updateSlider();
+    });
+
+    document.getElementById('nextImg').addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentIndex = (currentIndex + 1) % imagesArray.length;
+        updateSlider();
+    });
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeModal();
+        if (document.getElementById('productModal').classList.contains('active')) {
+            if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + imagesArray.length) % imagesArray.length; updateSlider(); }
+            if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % imagesArray.length; updateSlider(); }
         }
+    });
+
+    // ── SEARCH & FILTER ──
+    const searchInput = document.getElementById('searchInput');
+    const priceFilter = document.getElementById('priceFilter');
+
+    function filterCards() {
+        const q = searchInput.value.toLowerCase();
+        const pf = priceFilter.value;
+        let anyVisible = false;
 
         cards.forEach(card => {
-            card.addEventListener('click', () => {
-                modalTitle.textContent = card.dataset.title;
-                modalPrice.textContent = card.dataset.price;
-                modalDesc.textContent = card.dataset.desc;
-                waLink = card.dataset.wa;
+            const title = card.dataset.title.toLowerCase();
+            const price = parseInt(card.dataset.price.replace(/[^0-9]/g, ''));
+            const matchSearch = title.includes(q);
+            const matchPrice =
+                pf === 'all' ||
+                (pf === 'low' && price <= 500000) ||
+                (pf === 'medium' && price > 500000 && price <= 2000000) ||
+                (pf === 'high' && price > 2000000);
 
-                imagesArray = card.dataset.images.split(',').map(s => s.trim());
-                currentIndex = 0;
-                modalImg.src = imagesArray[0];
-
-                modalThumbnails.innerHTML = '';
-                imagesArray.forEach((src, i) => {
-                    const thumb = document.createElement('img');
-                    thumb.src = src;
-                    if (i === 0) thumb.classList.add('active');
-                    thumb.addEventListener('click', () => {
-                        currentIndex = i;
-                        updateSlider();
-                    });
-                    modalThumbnails.appendChild(thumb);
-                });
-
-                contactBtn.onclick = () => window.open(waLink, '_blank');
-                modal.classList.add('active');
-            });
+            const show = matchSearch && matchPrice;
+            card.style.display = show ? 'block' : 'none';
+            if (show) anyVisible = true;
         });
 
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + imagesArray.length) % imagesArray.length;
-            updateSlider();
-        });
-
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % imagesArray.length;
-            updateSlider();
-        });
-
-        function closeModal() {
-            modal.classList.remove('active');
+        // empty state
+        let empty = document.getElementById('emptyState');
+        if (!anyVisible) {
+            if (!empty) {
+                empty = document.createElement('div');
+                empty.id = 'emptyState';
+                empty.className = 'empty-state';
+                empty.innerHTML = '<h3>Produk Tidak Ditemukan</h3><p>Coba kata kunci atau filter yang berbeda.</p>';
+                document.getElementById('productGrid').appendChild(empty);
+            }
+        } else if (empty) {
+            empty.remove();
         }
-        window.addEventListener('click', e => {
-            if (e.target === modal) closeModal();
-        });
+    }
 
-        // SEARCH & FILTER
-        const searchInput = document.getElementById('searchInput');
-        const priceFilter = document.getElementById('priceFilter');
-
-        function filterCards() {
-            const searchText = searchInput.value.toLowerCase();
-            const priceValue = priceFilter.value;
-
-            cards.forEach(card => {
-                const title = card.dataset.title.toLowerCase();
-                const priceText = card.dataset.price.replace(/[^0-9]/g, '');
-                const price = parseInt(priceText);
-
-                let matchesSearch = title.includes(searchText);
-                let matchesPrice = true;
-
-                if (priceValue === "low") matchesPrice = price <= 500000;
-                if (priceValue === "medium") matchesPrice = price > 500000 && price <= 2000000;
-                if (priceValue === "high") matchesPrice = price > 2000000;
-
-                card.style.display = (matchesSearch && matchesPrice) ? "block" : "none";
-            });
-        }
-
-        searchInput.addEventListener('input', filterCards);
-        priceFilter.addEventListener('change', filterCards);
-    </script>
+    searchInput.addEventListener('input', filterCards);
+    priceFilter.addEventListener('change', filterCards);
+</script>
 </body>
-
 </html>
-
